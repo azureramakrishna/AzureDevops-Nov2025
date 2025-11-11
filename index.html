@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Multi-Cloud Services Comparison</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+
+        header {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
+
+        .legend {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            padding: 25px;
+            background: #f8f9fa;
+            flex-wrap: wrap;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 20px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            transition: transform 0.2s;
+        }
+
+        .legend-item:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+
+        .legend-color {
+            width: 30px;
+            height: 30px;
+            border-radius: 5px;
+            border: 2px solid #ddd;
+        }
+
+        .aws { background-color: #FF9900; }
+        .azure { background-color: #0078D4; }
+        .gcp { background-color: #4285F4; }
+        .ibm { background-color: #054ADA; }
+
+        .table-container {
+            padding: 30px;
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.95em;
+        }
+
+        thead {
+            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+            color: white;
+        }
+
+        th {
+            padding: 18px 15px;
+            text-align: left;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+
+        th:first-child {
+            width: 150px;
+        }
+
+        tbody tr {
+            border-bottom: 1px solid #e0e0e0;
+            transition: background-color 0.2s;
+        }
+
+        tbody tr:hover {
+            background-color: #f5f5f5;
+        }
+
+        td {
+            padding: 15px;
+            vertical-align: top;
+        }
+
+        .service-category {
+            font-weight: 600;
+            font-size: 1.1em;
+            color: #2c3e50;
+            background: linear-gradient(90deg, #ecf0f1 0%, transparent 100%);
+        }
+
+        .service-name {
+            font-weight: 600;
+            margin-bottom: 5px;
+            font-size: 1.05em;
+        }
+
+        .service-desc {
+            color: #666;
+            font-size: 0.9em;
+            line-height: 1.5;
+        }
+
+        .aws-cell { border-left: 4px solid #FF9900; }
+        .azure-cell { border-left: 4px solid #0078D4; }
+        .gcp-cell { border-left: 4px solid #4285F4; }
+        .ibm-cell { border-left: 4px solid #054ADA; }
+
+        footer {
+            background: #2c3e50;
+            color: white;
+            text-align: center;
+            padding: 20px;
+            font-size: 0.9em;
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 1.8em;
+            }
+
+            .legend {
+                gap: 15px;
+            }
+
+            .table-container {
+                padding: 15px;
+            }
+
+            table {
+                font-size: 0.85em;
+            }
+
+            th, td {
+                padding: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Multi-Cloud Services Comparison</h1>
+            <p class="subtitle">AWS • Azure • Google Cloud • IBM Cloud</p>
+        </header>
+
+        <div class="legend">
+            <div class="legend-item">
+                <div class="legend-color aws"></div>
+                <strong>AWS (Amazon Web Services)</strong>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color azure"></div>
+                <strong>Microsoft Azure</strong>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color gcp"></div>
+                <strong>Google Cloud Platform</strong>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color ibm"></div>
+                <strong>IBM Cloud</strong>
+            </div>
+        </div>
+
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Service Category</th>
+                        <th>AWS</th>
+                        <th>Azure</th>
+                        <th>Google Cloud</th>
+                        <th>IBM Cloud</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="service-category">Virtual Machines</td>
+                        <td class="aws-cell">
+                            <div class="service-name">EC2 (Elastic Compute Cloud)</div>
+                            <div class="service-desc">Scalable virtual servers with various instance types, on-demand or reserved pricing</div>
+                        </td>
+                        <td class="azure-cell">
+                            <div class="service-name">Virtual Machines</div>
+                            <div class="service-desc">Windows and Linux VMs with integration to Microsoft ecosystem</div>
+                        </td>
+                        <td class="gcp-cell">
+                            <div class="service-name">Compute Engine</div>
+                            <div class="service-desc">High-performance VMs with custom machine types and per-second billing</div>
+                        </td>
+                        <td class="ibm-cell">
+                            <div class="service-name">Virtual Servers</div>
+                            <div class="service-desc">Public and dedicated virtual servers with bare metal options</div>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td class="service-category">Networking</td>
+                        <td class="aws-cell">
+                            <div class="service-name">VPC, Route 53, CloudFront</div>
+                            <div class="service-desc">Virtual Private Cloud, DNS service, and global CDN with edge locations</div>
+                        </td>
+                        <td class="azure-cell">
+                            <div class="service-name">Virtual Network, DNS, CDN</div>
+                            <div class="service-desc">Private networks, DNS zones, and content delivery with Azure backbone</div>
+                        </td>
+                        <td class="gcp-cell">
+                            <div class="service-name">VPC, Cloud DNS, Cloud CDN</div>
+                            <div class="service-desc">Global VPC, managed DNS, and CDN leveraging Google's network infrastructure</div>
+                        </td>
+                        <td class="ibm-cell">
+                            <div class="service-name">VPC, DNS Services, CDN</div>
+                            <div class="service-desc">Isolated networks with classic and VPC infrastructure options</div>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td class="service-category">RBAC / IAM</td>
+                        <td class="aws-cell">
+                            <div class="service-name">IAM (Identity & Access Management)</div>
+                            <div class="service-desc">Fine-grained access control with policies, roles, and groups</div>
+                        </td>
+                        <td class="azure-cell">
+                            <div class="service-name">Azure AD & RBAC</div>
+                            <div class="service-desc">Role-based access control integrated with Active Directory</div>
+                        </td>
+                        <td class="gcp-cell">
+                            <div class="service-name">Cloud IAM</div>
+                            <div class="service-desc">Unified access management with predefined and custom roles</div>
+                        </td>
+                        <td class="ibm-cell">
+                            <div class="service-name">IAM & AppID</div>
+                            <div class="service-desc">Identity and access management with application authentication</div>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td class="service-category">Relational Database</td>
+                        <td class="aws-cell">
+                            <div class="service-name">RDS, Aurora</div>
+                            <div class="service-desc">Managed relational databases (MySQL, PostgreSQL, Oracle, SQL Server) and Aurora</div>
+                        </td>
+                        <td class="azure-cell">
+                            <div class="service-name">Azure SQL Database</div>
+                            <div class="service-desc">Fully managed SQL Server database with intelligent features</div>
+                        </td>
+                        <td class="gcp-cell">
+                            <div class="service-name">Cloud SQL</div>
+                            <div class="service-desc">Managed MySQL, PostgreSQL, and SQL Server with automatic backups</div>
+                        </td>
+                        <td class="ibm-cell">
+                            <div class="service-name">Db2, SQL Query</div>
+                            <div class="service-desc">Enterprise database with AI-powered optimization</div>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td class="service-category">NoSQL Database</td>
+                        <td class="aws-cell">
+                            <div class="service-name">DynamoDB, DocumentDB</div>
+                            <div class="service-desc">Key-value and document databases with single-digit millisecond performance</div>
+                        </td>
+                        <td class="azure-cell">
+                            <div class="service-name">Cosmos DB</div>
+                            <div class="service-desc">Globally distributed multi-model database with multiple APIs</div>
+                        </td>
+                        <td class="gcp-cell">
+                            <div class="service-name">Firestore, Bigtable</div>
+                            <div class="service-desc">Document database and wide-column store for analytics and applications</div>
+                        </td>
+                        <td class="ibm-cell">
+                            <div class="service-name">Cloudant</div>
+                            <div class="service-desc">Distributed JSON document database based on Apache CouchDB</div>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td class="service-category">Object Storage</td>
+                        <td class="aws-cell">
+                            <div class="service-name">S3 (Simple Storage Service)</div>
+                            <div class="service-desc">Industry-leading object storage with multiple storage classes</div>
+                        </td>
+                        <td class="azure-cell">
+                            <div class="service-name">Blob Storage</div>
+                            <div class="service-desc">Massively scalable object storage for unstructured data</div>
+                        </td>
+                        <td class="gcp-cell">
+                            <div class="service-name">Cloud Storage</div>
+                            <div class="service-desc">Unified object storage with automatic tiering and worldwide accessibility</div>
+                        </td>
+                        <td class="ibm-cell">
+                            <div class="service-name">Cloud Object Storage</div>
+                            <div class="service-desc">Highly scalable and durable storage with integrated backup</div>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td class="service-category">Block Storage</td>
+                        <td class="aws-cell">
+                            <div class="service-name">EBS (Elastic Block Store)</div>
+                            <div class="service-desc">Persistent block storage volumes for EC2 with snapshot capability</div>
+                        </td>
+                        <td class="azure-cell">
+                            <div class="service-name">Managed Disks</div>
+                            <div class="service-desc">Block storage for VMs with SSD and HDD options</div>
+                        </td>
+                        <td class="gcp-cell">
+                            <div class="service-name">Persistent Disk</div>
+                            <div class="service-desc">Durable block storage with automatic encryption and snapshots</div>
+                        </td>
+                        <td class="ibm-cell">
+                            <div class="service-name">Block Storage</div>
+                            <div class="service-desc">Performance-based block storage for virtual servers</div>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td class="service-category">Container Service</td>
+                        <td class="aws-cell">
+                            <div class="service-name">ECS, EKS</div>
+                            <div class="service-desc">Elastic Container Service and managed Kubernetes service</div>
+                        </td>
+                        <td class="azure-cell">
+                            <div class="service-name">AKS (Azure Kubernetes Service)</div>
+                            <div class="service-desc">Managed Kubernetes with integrated CI/CD and monitoring</div>
+                        </td>
+                        <td class="gcp-cell">
+                            <div class="service-name">GKE (Google Kubernetes Engine)</div>
+                            <div class="service-desc">Advanced Kubernetes platform with autopilot mode</div>
+                        </td>
+                        <td class="ibm-cell">
+                            <div class="service-name">Kubernetes Service</div>
+                            <div class="service-desc">Managed Kubernetes clusters with OpenShift integration</div>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td class="service-category">Serverless Compute</td>
+                        <td class="aws-cell">
+                            <div class="service-name">Lambda</div>
+                            <div class="service-desc">Event-driven serverless compute with pay-per-use pricing</div>
+                        </td>
+                        <td class="azure-cell">
+                            <div class="service-name">Functions</div>
+                            <div class="service-desc">Serverless compute integrated with Azure ecosystem</div>
+                        </td>
+                        <td class="gcp-cell">
+                            <div class="service-name">Cloud Functions</div>
+                            <div class="service-desc">Lightweight serverless execution environment</div>
+                        </td>
+                        <td class="ibm-cell">
+                            <div class="service-name">Cloud Functions</div>
+                            <div class="service-desc">Apache OpenWhisk-based serverless platform</div>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td class="service-category">Load Balancing</td>
+                        <td class="aws-cell">
+                            <div class="service-name">ELB (Elastic Load Balancing)</div>
+                            <div class="service-desc">Application, Network, and Gateway load balancers</div>
+                        </td>
+                        <td class="azure-cell">
+                            <div class="service-name">Load Balancer, Application Gateway</div>
+                            <div class="service-desc">Layer 4 and Layer 7 load balancing with WAF integration</div>
+                        </td>
+                        <td class="gcp-cell">
+                            <div class="service-name">Cloud Load Balancing</div>
+                            <div class="service-desc">Global load balancing across regions with Anycast IP</div>
+                        </td>
+                        <td class="ibm-cell">
+                            <div class="service-name">Load Balancer</div>
+                            <div class="service-desc">Local and global load balancing for applications</div>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td class="service-category">Monitoring</td>
+                        <td class="aws-cell">
+                            <div class="service-name">CloudWatch</div>
+                            <div class="service-desc">Monitoring and observability with logs, metrics, and alarms</div>
+                        </td>
+                        <td class="azure-cell">
+                            <div class="service-name">Monitor, Application Insights</div>
+                            <div class="service-desc">Full-stack monitoring with APM and log analytics</div>
+                        </td>
+                        <td class="gcp-cell">
+                            <div class="service-name">Cloud Monitoring</div>
+                            <div class="service-desc">Infrastructure and application monitoring with SLO tracking</div>
+                        </td>
+                        <td class="ibm-cell">
+                            <div class="service-name">Cloud Monitoring</div>
+                            <div class="service-desc">Metrics, logs, and availability monitoring</div>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td class="service-category">Security</td>
+                        <td class="aws-cell">
+                            <div class="service-name">Security Hub, GuardDuty</div>
+                            <div class="service-desc">Security posture management and threat detection</div>
+                        </td>
+                        <td class="azure-cell">
+                            <div class="service-name">Security Center, Sentinel</div>
+                            <div class="service-desc">Unified security management and SIEM solution</div>
+                        </td>
+                        <td class="gcp-cell">
+                            <div class="service-name">Security Command Center</div>
+                            <div class="service-desc">Centralized security and risk management platform</div>
+                        </td>
+                        <td class="ibm-cell">
+                            <div class="service-name">Security & Compliance Center</div>
+                            <div class="service-desc">Security posture management with compliance tracking</div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <footer>
+            <p>Multi-Cloud Services Comparison Guide | Updated 2025</p>
+        </footer>
+    </div>
+</body>
+</html>

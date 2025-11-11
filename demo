@@ -1,0 +1,117 @@
+AzureDevops with AI:
+===================
+
+AzureDevops:
+
+ - Azure Boards 
+
+    Agile
+
+        Sprint Model - 2 week
+
+        Sprint Planning - Backlogs 
+
+        Userstories 
+        Tasks - hrs/
+
+        Standup calls 
+
+        Retrospective 
+
+
+        Multi cloud 
+        Azure 
+        AWS
+        GCP
+        OCI
+        Alibaba cloud (China)
+
+        AzureDatabricks - IAC Terraform (Databricks, Microsoft)
+
+        CI CD - Azure Dev, Test (UAT, NonProd), Prod & DR 
+
+        ChangeProcess
+
+
+        Java 
+
+
+
+ - Azure Repos / GitHub Actions (CI CD) / GitLab
+
+
+ - Azure Pipeline (CI CD)
+
+
+
+Azure Admin - 1 month 
+    Network fundamental 
+     10.0.0.0/24  = 256
+
+Subscritpoin governance 
+Network
+Azure VNET 
+NSG
+SUbnets
+Peering
+VPN Gateway
+Expressroute
+Storage 
+Server / VM / Azure VM / Ec2 instances / Coumpute engine
+Azure AD
+Azure RBAC
+Keyvault 
+SQL DB
+Webapps
+loadbalancers
+Azure Monitor - infra
+Application Insights - application monitoroing
+VMSS (Virtual Machine scale set)
+
+AzureDevops 1 month
+
+JSON 
+ARMTEmplates
+Terraform 
+Azure Boards
+Azure Repos 
+GitHub 
+Azure Pipeline  CI CD
+GitHub Actions  CI CD 
+Docker - Azure 
+Kubernetes 
+AKS 
+
+
+
+
+
+Duration - 2months (Mon - Fri)
+Recording 
+Labs 
+Documentations 
+AI + Prompts
+Projects - 2 
+
+Azure Admin - 1month
+AzureDevops - 1month
+
+    - IAC 
+      ARMTemplates
+      Terraform
+    - Azure Boards - Agile / scrum 
+    - Azure Repo / Github 
+    - Azure Piplines / GitHub Actions 
+    - Docker 
+    - AKS 
+
+QA:
+--
+
+acc@gmail.com
+12345
+1234
+
+Email
+Mobile
+CC

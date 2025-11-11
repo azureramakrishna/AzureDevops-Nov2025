@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Azure Load Balancing Services - Complete Guide</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px;
+            color: #333;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+
+        header {
+            background: linear-gradient(135deg, #0078d4 0%, #00bcf2 100%);
+            color: white;
+            padding: 40px;
+            text-align: center;
+        }
+
+        header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        header p {
+            font-size: 1.2em;
+            opacity: 0.95;
+        }
+
+        .vm-identifier {
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 10px;
+            padding: 15px 30px;
+            margin-bottom: 20px;
+            display: inline-block;
+            font-size: 1.3em;
+            font-weight: bold;
+            letter-spacing: 1px;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        .legend {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+            padding: 30px;
+            background: #f8f9fa;
+            border-bottom: 3px solid #e9ecef;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 20px;
+            background: white;
+            border-radius: 25px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .legend-color {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            border: 3px solid white;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+
+        .color-alb { background: linear-gradient(135deg, #0078d4, #00bcf2); }
+        .color-appgw { background: linear-gradient(135deg, #00a4ef, #50e6ff); }
+        .color-fd { background: linear-gradient(135deg, #7fba00, #b4ec51); }
+        .color-tm { background: linear-gradient(135deg, #ffb900, #ffd966); }
+
+        .content {
+            padding: 40px;
+        }
+
+        .service-section {
+            margin-bottom: 50px;
+            padding: 30px;
+            border-radius: 10px;
+            background: #f8f9fa;
+            border-left: 6px solid;
+        }
+
+        .service-section.alb { border-left-color: #0078d4; }
+        .service-section.appgw { border-left-color: #00a4ef; }
+        .service-section.fd { border-left-color: #7fba00; }
+        .service-section.tm { border-left-color: #ffb900; }
+
+        .service-section h2 {
+            color: #333;
+            margin-bottom: 20px;
+            font-size: 2em;
+        }
+
+        .service-section h3 {
+            color: #555;
+            margin-top: 20px;
+            margin-bottom: 10px;
+            font-size: 1.3em;
+        }
+
+        .service-section p {
+            margin-bottom: 15px;
+            text-align: justify;
+        }
+
+        .service-section ul {
+            margin-left: 20px;
+            margin-bottom: 15px;
+        }
+
+        .service-section li {
+            margin-bottom: 8px;
+        }
+
+        .comparison-section {
+            margin-top: 50px;
+        }
+
+        .comparison-section h2 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 30px;
+            font-size: 2.2em;
+        }
+
+        .table-container {
+            overflow-x: auto;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+        }
+
+        thead {
+            background: linear-gradient(135deg, #0078d4, #00bcf2);
+            color: white;
+        }
+
+        th, td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid #e9ecef;
+        }
+
+        th {
+            font-weight: 600;
+            font-size: 1.1em;
+        }
+
+        tbody tr:hover {
+            background: #f8f9fa;
+            transition: background 0.3s ease;
+        }
+
+        .service-name {
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .service-name::before {
+            content: '';
+            width: 15px;
+            height: 15px;
+            border-radius: 50%;
+            display: inline-block;
+        }
+
+        .alb-row .service-name::before { background: linear-gradient(135deg, #0078d4, #00bcf2); }
+        .appgw-row .service-name::before { background: linear-gradient(135deg, #00a4ef, #50e6ff); }
+        .fd-row .service-name::before { background: linear-gradient(135deg, #7fba00, #b4ec51); }
+        .tm-row .service-name::before { background: linear-gradient(135deg, #ffb900, #ffd966); }
+
+        footer {
+            background: #2c3e50;
+            color: white;
+            text-align: center;
+            padding: 20px;
+            margin-top: 40px;
+        }
+
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 1.8em;
+            }
+            
+            .service-section {
+                padding: 20px;
+            }
+            
+            th, td {
+                padding: 10px;
+                font-size: 0.9em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="vm-identifier" id="vmId">EastUS</div>
+            <h1>Azure Load Balancing Services</h1>
+            <p>Comprehensive Guide to Microsoft Azure's Load Balancing Solutions</p>
+        </header>
+
+        <script>
+            // Automatically detect VM identifier from hostname or use query parameter
+            // Usage: Add ?vm=VM02 to URL for different VM
+            const urlParams = new URLSearchParams(window.location.search);
+            const vmParam = urlParams.get('vm');
+            const vmIdentifier = document.getElementById('vmId');
+            
+            if (vmParam) {
+                vmIdentifier.textContent = vmParam;
+            }
+            
+            // Add different background colors based on VM
+            if (vmIdentifier.textContent.includes('2') || vmIdentifier.textContent.includes('02')) {
+                vmIdentifier.style.background = 'rgba(255, 193, 7, 0.4)';
+                vmIdentifier.style.borderColor = 'rgba(255, 193, 7, 0.6)';
+            } else {
+                vmIdentifier.style.background = 'rgba(107, 255, 107, 0.3)';
+                vmIdentifier.style.borderColor = 'rgba(107, 255, 107, 0.5)';
+            }
+        </script>
+
+        <div class="legend">
+            <div class="legend-item">
+                <div class="legend-color color-alb"></div>
+                <span><strong>Azure Load Balancer</strong></span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color color-appgw"></div>
+                <span><strong>Application Gateway</strong></span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color color-fd"></div>
+                <span><strong>Azure Front Door</strong></span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color color-tm"></div>
+                <span><strong>Traffic Manager</strong></span>
+            </div>
+        </div>
+
+        <div class="content">
+            <section class="service-section alb">
+                <h2>Azure Load Balancer</h2>
+                <p>Azure Load Balancer is a high-performance, low-latency Layer 4 (TCP/UDP) load balancer that distributes incoming network traffic across multiple virtual machines or instances. It operates at the transport layer of the OSI model and is ideal for scenarios requiring ultra-low latency and high throughput.</p>
+                
+                <h3>Key Features</h3>
+                <ul>
+                    <li><strong>Layer 4 Load Balancing:</strong> Distributes traffic based on IP address and port number</li>
+                    <li><strong>High Availability:</strong> Supports availability zones for maximum uptime</li>
+                    <li><strong>Port Forwarding:</strong> Enables inbound NAT rules for direct VM access</li>
+                    <li><strong>Health Probes:</strong> Monitors backend instance health automatically</li>
+                    <li><strong>Outbound Connectivity:</strong> Provides SNAT for VMs without public IPs</li>
+                    <li><strong>Low Latency:</strong> Microsecond-level latency for high-performance applications</li>
+                </ul>
+
+                <h3>Use Cases</h3>
+                <ul>
+                    <li>Distributing traffic to VMs within a virtual network</li>
+                    <li>Load balancing internal applications</li>
+                    <li>High-throughput, low-latency applications</li>
+                    <li>Non-HTTP/HTTPS protocols (gaming, IoT, databases)</li>
+                </ul>
+
+                <h3>SKUs</h3>
+                <p><strong>Basic:</strong> Free tier with limited features, suitable for dev/test environments.<br>
+                <strong>Standard:</strong> Production-grade with SLA, availability zones, and advanced features.</p>
+            </section>
+
+            <section class="service-section appgw">
+                <h2>Azure Application Gateway</h2>
+                <p>Application Gateway is a Layer 7 (application layer) load balancer that provides advanced HTTP/HTTPS traffic management capabilities. It acts as a web traffic load balancer with built-in Web Application Firewall (WAF) capabilities, SSL termination, and URL-based routing.</p>
+                
+                <h3>Key Features</h3>
+                <ul>
+                    <li><strong>Layer 7 Load Balancing:</strong> Content-based routing for HTTP/HTTPS traffic</li>
+                    <li><strong>SSL/TLS Termination:</strong> Offloads SSL processing from backend servers</li>
+                    <li><strong>Web Application Firewall (WAF):</strong> Protects against common web vulnerabilities</li>
+                    <li><strong>URL-Based Routing:</strong> Routes requests based on URL paths</li>
+                    <li><strong>Session Affinity:</strong> Cookie-based session stickiness</li>
+                    <li><strong>Autoscaling:</strong> Automatically scales based on traffic load</li>
+                    <li><strong>Redirection:</strong> HTTP to HTTPS redirection</li>
+                </ul>
+
+                <h3>Use Cases</h3>
+                <ul>
+                    <li>Web applications requiring SSL termination</li>
+                    <li>Microservices architectures with path-based routing</li>
+                    <li>Applications needing WAF protection</li>
+                    <li>Multi-site hosting on a single gateway</li>
+                </ul>
+
+                <h3>SKUs</h3>
+                <p><strong>Standard v2:</strong> Standard features with autoscaling.<br>
+                <strong>WAF v2:</strong> Includes Web Application Firewall with OWASP protection.</p>
+            </section>
+
+            <section class="service-section fd">
+                <h2>Azure Front Door</h2>
+                <p>Azure Front Door is a global, scalable entry point that uses Microsoft's global edge network to create fast, secure, and widely scalable web applications. It provides Layer 7 load balancing with SSL offload, URL-based routing, and intelligent traffic routing across multiple regions.</p>
+                
+                <h3>Key Features</h3>
+                <ul>
+                    <li><strong>Global Load Balancing:</strong> Routes traffic across multiple Azure regions</li>
+                    <li><strong>CDN Integration:</strong> Built-in content delivery network capabilities</li>
+                    <li><strong>WAF Protection:</strong> Azure Web Application Firewall integration</li>
+                    <li><strong>SSL Offload:</strong> Handles SSL/TLS termination at the edge</li>
+                    <li><strong>URL Rewriting:</strong> Modify URLs before routing to backends</li>
+                    <li><strong>Caching:</strong> Edge caching for improved performance</li>
+                    <li><strong>DDoS Protection:</strong> Built-in DDoS protection</li>
+                </ul>
+
+                <h3>Use Cases</h3>
+                <ul>
+                    <li>Global web applications requiring low latency</li>
+                    <li>Multi-region deployments with failover</li>
+                    <li>Applications requiring CDN and load balancing</li>
+                    <li>API gateways with global reach</li>
+                </ul>
+
+                <h3>SKUs</h3>
+                <p><strong>Classic:</strong> Legacy offering with basic features.<br>
+                <strong>Standard:</strong> Modern offering with enhanced performance.<br>
+                <strong>Premium:</strong> Advanced security features with managed rules.</p>
+            </section>
+
+            <section class="service-section tm">
+                <h2>Azure Traffic Manager</h2>
+                <p>Azure Traffic Manager is a DNS-based traffic load balancer that distributes traffic globally across Azure regions. It operates at the DNS level, directing client DNS queries to the most appropriate service endpoint based on routing methods and endpoint health.</p>
+                
+                <h3>Key Features</h3>
+                <ul>
+                    <li><strong>DNS-Based Routing:</strong> Routes traffic at the DNS level</li>
+                    <li><strong>Multiple Routing Methods:</strong> Priority, weighted, performance, geographic, multivalue, subnet</li>
+                    <li><strong>Endpoint Monitoring:</strong> Health checks for automatic failover</li>
+                    <li><strong>Global Reach:</strong> Works with any internet-facing service</li>
+                    <li><strong>Nested Profiles:</strong> Combine routing methods for complex scenarios</li>
+                    <li><strong>Fast Failover:</strong> Quick detection and recovery from failures</li>
+                </ul>
+
+                <h3>Use Cases</h3>
+                <ul>
+                    <li>Global disaster recovery and business continuity</li>
+                    <li>Geographic traffic distribution</li>
+                    <li>Hybrid cloud and multi-cloud scenarios</li>
+                    <li>Low-cost global load balancing</li>
+                </ul>
+
+                <h3>Routing Methods</h3>
+                <p><strong>Priority:</strong> Primary/secondary failover pattern.<br>
+                <strong>Weighted:</strong> Distribute traffic proportionally.<br>
+                <strong>Performance:</strong> Route to closest endpoint by latency.<br>
+                <strong>Geographic:</strong> Route based on geographic location.<br>
+                <strong>Multivalue:</strong> Return multiple healthy endpoints.<br>
+                <strong>Subnet:</strong> Route based on source IP subnet.</p>
+            </section>
+
+            <div class="comparison-section">
+                <h2>Service Comparison Matrix</h2>
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Service</th>
+                                <th>OSI Layer</th>
+                                <th>Scope</th>
+                                <th>Protocol</th>
+                                <th>Routing Type</th>
+                                <th>SSL Offload</th>
+                                <th>WAF Support</th>
+                                <th>Best For</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="alb-row">
+                                <td><div class="service-name">Azure Load Balancer</div></td>
+                                <td>Layer 4 (Transport)</td>
+                                <td>Regional</td>
+                                <td>TCP/UDP</td>
+                                <td>Hash-based</td>
+                                <td>No</td>
+                                <td>No</td>
+                                <td>High-performance, low-latency VM load balancing</td>
+                            </tr>
+                            <tr class="appgw-row">
+                                <td><div class="service-name">Application Gateway</div></td>
+                                <td>Layer 7 (Application)</td>
+                                <td>Regional</td>
+                                <td>HTTP/HTTPS</td>
+                                <td>URL-based, path-based</td>
+                                <td>Yes</td>
+                                <td>Yes (WAF SKU)</td>
+                                <td>Web applications with advanced routing</td>
+                            </tr>
+                            <tr class="fd-row">
+                                <td><div class="service-name">Azure Front Door</div></td>
+                                <td>Layer 7 (Application)</td>
+                                <td>Global</td>
+                                <td>HTTP/HTTPS</td>
+                                <td>URL-based, latency-based</td>
+                                <td>Yes</td>
+                                <td>Yes</td>
+                                <td>Global web apps with CDN and low latency</td>
+                            </tr>
+                            <tr class="tm-row">
+                                <td><div class="service-name">Traffic Manager</div></td>
+                                <td>DNS (Layer 7)</td>
+                                <td>Global</td>
+                                <td>Any</td>
+                                <td>DNS-based (multiple methods)</td>
+                                <td>No</td>
+                                <td>No</td>
+                                <td>DNS-level global routing and disaster recovery</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="comparison-section">
+                <h2>Feature Comparison</h2>
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Feature</th>
+                                <th>Load Balancer</th>
+                                <th>Application Gateway</th>
+                                <th>Front Door</th>
+                                <th>Traffic Manager</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>Health Monitoring</strong></td>
+                                <td>TCP/HTTP probes</td>
+                                <td>HTTP/HTTPS probes</td>
+                                <td>HTTP/HTTPS probes</td>
+                                <td>HTTP/HTTPS/TCP probes</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Session Persistence</strong></td>
+                                <td>Source IP affinity</td>
+                                <td>Cookie-based</td>
+                                <td>Cookie-based</td>
+                                <td>Not applicable (DNS)</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Autoscaling</strong></td>
+                                <td>No (Standard SKU)</td>
+                                <td>Yes (v2 SKU)</td>
+                                <td>Automatic</td>
+                                <td>Not applicable</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Latency</strong></td>
+                                <td>Microseconds</td>
+                                <td>Milliseconds</td>
+                                <td>Edge-optimized</td>
+                                <td>DNS resolution time</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Cost Model</strong></td>
+                                <td>Per rule + data processed</td>
+                                <td>Per hour + data processed</td>
+                                <td>Per routing rule + requests</td>
+                                <td>Per DNS query + health checks</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Availability Zones</strong></td>
+                                <td>Yes (Standard)</td>
+                                <td>Yes (v2)</td>
+                                <td>Built-in global redundancy</td>
+                                <td>Global service</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <footer>
+            <p>&copy; 2025 Azure Load Balancing Services Guide | Microsoft Azure Documentation Reference</p>
+        </footer>
+    </div>
+</body>
+</html>

@@ -1,0 +1,35 @@
+{
+    "TrainingModule": "Azure with AzureDevops with AI",
+    "Duration": "60 Days",
+    "Modules": [
+        "Azure administration",
+        "AzureDevops",
+        "ARMTemplates",
+        "Terraform",
+        "GitHubActions",
+        "Docker",
+        "AzureKubernetesService"
+    ],
+    "Address": {
+        "DoorNo": 123,
+        "Location": "Hyderabad",
+        "City": "Hyderabad"
+    },
+    "Participants": [
+        {
+            "Name": "Divya",
+            "Location": "Hyderabad",
+            "IsAzureAdmin": true
+        },
+        {
+            "Name": "lisandro",
+            "Location": "US",
+            "IsAzureAdmin": false
+        },
+        {
+            "Name": "Shruthi",
+            "Location": "Bangalore",
+            "IsAzureAdmin": true
+        }
+    ]
+}
