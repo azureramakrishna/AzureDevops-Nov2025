@@ -6,6 +6,7 @@ param adminUser string
 @secure()
 param adminPassword string
 
+// variables 
 var virtual_network_name string = 'saanvikit-vnet'
 var virtual_network_address array = ['192.168.0.0/24']
 var subnet_name string = 'saanvikit-snet'
@@ -14,6 +15,7 @@ var network_security_group_name string = 'saanvikit-nsg'
 var public_ip_name string = 'saanvikit-pip'
 var network_interface_name = 'saanvikit-nic'
 
+// Create a Storageaccount
 resource storageaccount 'Microsoft.Storage/storageAccounts@2021-02-01' = {
   name: storage_account_name
   location: location_name
@@ -23,6 +25,7 @@ resource storageaccount 'Microsoft.Storage/storageAccounts@2021-02-01' = {
   }
 }
 
+// Create a Virtual Network
 resource virtualNetwork 'Microsoft.Network/virtualNetworks@2019-11-01' = {
   name: virtual_network_name
   location: location_name

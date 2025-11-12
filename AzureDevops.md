@@ -451,10 +451,7 @@ License:
 App registration (Service Principal):
 ====================================
 
-Client_id: 8958afb3-696c-483d-9318-4428b0212ea8
-Secret: sK.8Q~TF1omh6JTmedc6JUDhGlps7~scpGdgEaHw
 
-Tenant_id: 459865f1-a8aa-450a-baec-8b47a9e5c904
 
 
 az login --service-principal --username 8958afb3-696c-483d-9318-4428b0212ea8 --password sK.8Q~TF1omh6JTmedc6JUDhGlps7~scpGdgEaHw --tenant 459865f1-a8aa-450a-baec-8b47a9e5c904
