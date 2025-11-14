@@ -607,3 +607,43 @@ NIC
 VM
 OSDISK
 Storage Account
+
+storage.bicep
+RG - ARM 
+    storage account 
+    VM
+
+RG - ARM 
+vnet.bicep
+    vnet and subnet
+
+Incremental Mode
+Complete mode
+
+
+
+Terraform:
+=========
+
+ARMTemplates                            Bicep                                           Terraform (IBM)
+============                            =====                                           =========
+1. IAC                                  1. IAC                                          1. IAC 
+2. Azure Native                         2. Azure Native                                 2. Opensource (Azure, AWS, GCP, OCI, onprem etc) 
+3. JSON Language                        3. DSL (Domain specific language)               3. HCL (Harshicorp configuration Language)
+4. template.json                        4. main.bicep                                   4. main.tf
+    parameters.json                         main.bicepparam                                 variables.tf
+5. Schema                               5. param                                        5. Buildig blocks:
+    contentVersion                          resources                                       providers
+    Parameters                              outputs                                         resources
+    Variables                                                                               ouputs
+    Resources
+    Outputs
+6. New-AzResourceGroupDeployment `      6. New-AzResourceGroupDeployment `              6. Terraform Lifecycle
+    -ResourceGropuName `                    -ResourceGropuName `                            terraform init
+    -TemplateFile `                         -TemplateFile `                                 terraform fmt
+    -TemplateParameterFile `                -TemplateParameterFile `                        terraform validate
+    -Verbose                                -Verbose                                        terraform plan
+    -Mode                                                                                   terraform apply 
+                                                                                            terraform destroy
+
+
