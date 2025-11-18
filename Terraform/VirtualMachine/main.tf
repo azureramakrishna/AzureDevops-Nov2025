@@ -20,10 +20,10 @@ provider "azurerm" {
 # Azure terraform backend configuration
 terraform {
   backend "azurerm" {
-    resource_group_name  = "saanvikit-rg"      # Can also be set via `ARM_SAS_TOKEN` environment variable.
-    storage_account_name = "saanvikittfstate"  # Can be passed via `-backend-config=`"storage_account_name=<storage account name>"` in the `init` command.
-    container_name       = "tfstate"           # Can be passed via `-backend-config=`"container_name=<container name>"` in the `init` command.
-    key                  = "terraform.tfstate" # Can be passed via `-backend-config=`"key=<blob key name>"` in the `init` command.
+    resource_group_name  = "saanvikit-rg"         # Can also be set via `ARM_SAS_TOKEN` environment variable.
+    storage_account_name = "saanvikittfstate"     # Can be passed via `-backend-config=`"storage_account_name=<storage account name>"` in the `init` command.
+    container_name       = "tfstate"              # Can be passed via `-backend-config=`"container_name=<container name>"` in the `init` command.
+    key                  = "vm.terraform.tfstate" # Can be passed via `-backend-config=`"key=<blob key name>"` in the `init` command.
   }
 }
 
@@ -145,3 +145,23 @@ resource "azurerm_windows_virtual_machine" "vm" {
     version   = "latest"
   }
 }
+
+resource "azurerm_managed_disk" "example" {
+  name                 = "terraform-datadisk"
+  location             = azurerm_resource_group.rg.location
+  resource_group_name  = azurerm_resource_group.rg.name
+  storage_account_type = "UltraSSD_LRS"
+  create_option        = "Empty"
+  disk_size_gb         = "4"
+}
+
+# attach datadisk to the vm
+resource "azurerm_virtual_machine_data_disk_attachment" "example" {
+  managed_disk_id    = azurerm_managed_disk.example.id
+  virtual_machine_id = azurerm_windows_virtual_machine.vm.id
+  lun                = 0
+  caching            = "ReadOnly"
+}
+
+
+

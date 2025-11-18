@@ -1,11 +1,6 @@
 variable "resource_group_name" {
   type    = string
-  default = "terraform-rg"
-}
-
-variable "location" {
-  type    = string
-  default = "EastUS"
+  default = "saanvikit-rg"
 }
 
 variable "storageaccountname" {
@@ -23,22 +18,22 @@ variable "tags" {
 
 variable "virtual_network_name" {
   type    = string
-  default = "terraform-vnet"
-}
-
-variable "virtual_network_address" {
-  type    = list(string)
-  default = ["10.0.0.0/24"]
+  default = "saanvikit-vnet"
 }
 
 variable "subnet_name" {
   type    = string
-  default = "terraform-snet"
+  default = "default"
 }
 
-variable "subnet_address" {
-  type    = list(string)
-  default = ["10.0.0.0/24"]
+variable "keyvault_name" {
+  type    = string
+  default = "saanvikitkv"
+}
+
+variable "keyvault_secret" {
+  type    = string
+  default = "win-vm-password"
 }
 
 variable "public_ip_name" {
@@ -69,8 +64,4 @@ variable "virtual_machine_size" {
 variable "admin_username" {
   type    = string
   default = "azureuser"
-}
-
-variable "admin_password" {
-  type = string
 }
