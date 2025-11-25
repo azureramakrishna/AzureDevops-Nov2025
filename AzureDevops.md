@@ -647,3 +647,87 @@ ARMTemplates                            Bicep                                   
                                                                                             terraform destroy
 
 
+AzureDevops:
+===========
+
+- Azure Boards
+- Azure Repos
+- Azure Pipelines
+- Azure Testplans
+- Azure Artifacts
+
+
+Azure Boards:
+============
+
+Agile 
+
+Backlogs 
+
+Sprint planning 1 - 2 weeks 
+
+    Capacity planning - 24th Nov - 5th Dec
+
+    UserStories - 5 (2) 
+        Tasks 
+
+Daily Standup calls - 15min to 30min
+
+Retrospective
+    - What went well
+    - What didn't went well
+    - What can be improved
+
+
+Sprint planning 2 - 8th to 19th Dec
+
+
+
+Epic        -   Amazon.in
+
+Features    - Singup Page 
+            - Login Page 
+            - Home page 
+            - Product category 
+            - Cart 
+            - PaymentGateway
+            - Tracking page 
+            - Support 
+
+Userstory   - Singup Page 
+            - Login Page 
+
+Tasks       - Singup with google 
+            - Singup with apple 
+            - Singup with facebook 
+
+
+Azure Pipelines:
+===============
+
+Pre-requisites:
+
+    - Agent pool (VM)  
+
+        Self-Hosted (private VM)
+
+            1  pwd
+            2  mkdir myagent && cd myagent
+            3  pwd
+            4  wget https://download.agent.dev.azure.com/agent/4.264.2/vsts-agent-linux-x64-4.264.2.tar.gz
+            5  ls
+            6  tar zxvf vsts-agent-linux-x64-4.264.2.tar.gz
+            7  ls
+            8  rm vsts-agent-linux-x64-4.264.2.tar.gz
+            9  ls
+            10  ./config.sh
+            11  ls
+            12  ./run.sh
+            13  sudo ./svc.sh install &&
+            14  sudo ./svc.sh install
+            15  sudo ./svc.sh start
+
+        Microsoft Hosted (Microsoft will assign a VM) - https://aka.ms/azpipelines-parallelism-request
+
+
+    - Service Connection 
