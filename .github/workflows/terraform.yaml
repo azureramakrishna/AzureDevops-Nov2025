@@ -82,18 +82,3 @@ jobs:
         run: |
           terraform apply -auto-approve tfplan
         working-directory: ${{ env.WORKING_DIR }}
-
-      - name: Output Deployment Info
-        if: github.ref == 'refs/heads/main' && github.event_name == 'push'
-        run: |
-          terraform output -json > deployment-output.json
-          cat deployment-output.json
-        working-directory: ${{ env.WORKING_DIR }}
-
-      - name: Upload Terraform State
-        if: always()
-        uses: actions/upload-artifact@v3
-        with:
-          name: terraform-state
-          path: ${{ env.WORKING_DIR }}/.terraform/
-          retention-days: 5
