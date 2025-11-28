@@ -6,7 +6,7 @@ on:
       - main
     paths:
       - 'Terraform/VirtualMachine/**'
-      - '.github/workflows/terraform-deploy.yml'
+      - '.github/workflows/terraform.yaml'
   pull_request:
     branches:
       - main
@@ -63,19 +63,19 @@ jobs:
         working-directory: ${{ env.WORKING_DIR }}
         continue-on-error: true
 
-      - name: Comment PR with Plan
-        if: github.event_name == 'pull_request'
-        uses: actions/github-script@v6
-        with:
-          script: |
-            const fs = require('fs');
-            const plan = '${{ steps.plan.outputs.stdout }}';
-            github.rest.issues.createComment({
-              issue_number: context.issue.number,
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              body: `## Terraform Plan\n\`\`\`\n${plan}\n\`\`\``
-            });
+    #   - name: Comment PR with Plan
+    #     if: github.event_name == 'pull_request'
+    #     uses: actions/github-script@v6
+    #     with:
+    #       script: |
+    #         const fs = require('fs');
+    #         const plan = '${{ steps.plan.outputs.stdout }}';
+    #         github.rest.issues.createComment({
+    #           issue_number: context.issue.number,
+    #           owner: context.repo.owner,
+    #           repo: context.repo.repo,
+    #           body: `## Terraform Plan\n\`\`\`\n${plan}\n\`\`\``
+    #         });
 
       - name: Terraform Apply
         if: github.ref == 'refs/heads/main' && github.event_name == 'push'
