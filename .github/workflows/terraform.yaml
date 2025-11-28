@@ -14,6 +14,11 @@ on:
       - 'Terraform/VirtualMachine/**'
   workflow_dispatch:
 
+permissions:
+  contents: read
+  id-token: write
+  actions: read
+
 env:
   TERRAFORM_VERSION: 1.5.0
   WORKING_DIR: ./Terraform/VirtualMachine

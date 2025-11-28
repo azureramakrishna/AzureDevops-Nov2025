@@ -73,5 +73,4 @@ variable "admin_username" {
 
 variable "admin_password" {
   type = string
-  default = "Azuredevops@12345"
 }
