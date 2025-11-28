@@ -13,6 +13,11 @@ on:
     paths:
       - 'Terraform/VirtualMachine/**'
   workflow_dispatch:
+    inputs:
+      admin_password:
+        description: 'VM Admin Password'
+        required: true
+        type: string
 
 permissions:
   contents: read
@@ -59,23 +64,10 @@ jobs:
         id: plan
         run: |
           terraform plan -out=tfplan \
-            -var="admin_password=${{ secrets.VM_ADMIN_PASSWORD }}"
+            -var="admin_password=${{ github.event.inputs.admin_password || secrets.VM_ADMIN_PASSWORD }}"
         working-directory: ${{ env.WORKING_DIR }}
         continue-on-error: true
 
-    #   - name: Comment PR with Plan
-    #     if: github.event_name == 'pull_request'
-    #     uses: actions/github-script@v6
-    #     with:
-    #       script: |
-    #         const fs = require('fs');
-    #         const plan = '${{ steps.plan.outputs.stdout }}';
-    #         github.rest.issues.createComment({
-    #           issue_number: context.issue.number,
-    #           owner: context.repo.owner,
-    #           repo: context.repo.repo,
-    #           body: `## Terraform Plan\n\`\`\`\n${plan}\n\`\`\``
-    #         });
 
       - name: Terraform Apply
         if: github.ref == 'refs/heads/main' && github.event_name == 'push'
