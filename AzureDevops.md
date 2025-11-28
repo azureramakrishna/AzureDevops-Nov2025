@@ -710,7 +710,7 @@ Pre-requisites:
     - Agent pool (VM)  
 
         Self-Hosted (private VM) 
-# 1qPu0RQdzxGLqqTRVZUtRpiPKffnCMNGHq49WSAX2aAQMXKRgUuSJQQJ99BKACAAAAAAAAAAAAASAZDO2LFm
+
             1  pwd
             2  mkdir myagent && cd myagent
             3  pwd
@@ -733,7 +733,7 @@ Pre-requisites:
     - Service Connection (Service Principal)
 
 
-# d3E8Q~ROkwXz1ZKBd2CZ~EVrHuSyJyA83X3Y6bEI
+
 
 
 
