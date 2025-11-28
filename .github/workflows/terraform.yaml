@@ -1,0 +1,94 @@
+name: 'Terraform Deploy - Virtual Machine'
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'Terraform/VirtualMachine/**'
+      - '.github/workflows/terraform-deploy.yml'
+  pull_request:
+    branches:
+      - main
+    paths:
+      - 'Terraform/VirtualMachine/**'
+  workflow_dispatch:
+
+env:
+  TERRAFORM_VERSION: 1.5.0
+  WORKING_DIR: ./Terraform/VirtualMachine
+
+jobs:
+  terraform:
+    name: 'Terraform Plan & Apply'
+    runs-on: ubuntu-latest
+    
+    env:
+      ARM_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
+      ARM_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }}
+      ARM_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+      ARM_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v2
+        with:
+          terraform_version: ${{ env.TERRAFORM_VERSION }}
+
+      - name: Terraform Format Check
+        run: terraform fmt -check -recursive
+        working-directory: ${{ env.WORKING_DIR }}
+
+      - name: Terraform Init
+        run: terraform init
+        working-directory: ${{ env.WORKING_DIR }}
+
+      - name: Terraform Validate
+        run: terraform validate
+        working-directory: ${{ env.WORKING_DIR }}
+
+      - name: Terraform Plan
+        id: plan
+        run: |
+          terraform plan -out=tfplan \
+            -var="admin_password=${{ secrets.VM_ADMIN_PASSWORD }}"
+        working-directory: ${{ env.WORKING_DIR }}
+        continue-on-error: true
+
+      - name: Comment PR with Plan
+        if: github.event_name == 'pull_request'
+        uses: actions/github-script@v6
+        with:
+          script: |
+            const fs = require('fs');
+            const plan = '${{ steps.plan.outputs.stdout }}';
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: `## Terraform Plan\n\`\`\`\n${plan}\n\`\`\``
+            });
+
+      - name: Terraform Apply
+        if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+        run: |
+          terraform apply -auto-approve tfplan
+        working-directory: ${{ env.WORKING_DIR }}
+
+      - name: Output Deployment Info
+        if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+        run: |
+          terraform output -json > deployment-output.json
+          cat deployment-output.json
+        working-directory: ${{ env.WORKING_DIR }}
+
+      - name: Upload Terraform State
+        if: always()
+        uses: actions/upload-artifact@v3
+        with:
+          name: terraform-state
+          path: ${{ env.WORKING_DIR }}/.terraform/
+          retention-days: 5
