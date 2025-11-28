@@ -709,8 +709,8 @@ Pre-requisites:
 
     - Agent pool (VM)  
 
-        Self-Hosted (private VM)
-
+        Self-Hosted (private VM) 
+# 1qPu0RQdzxGLqqTRVZUtRpiPKffnCMNGHq49WSAX2aAQMXKRgUuSJQQJ99BKACAAAAAAAAAAAAASAZDO2LFm
             1  pwd
             2  mkdir myagent && cd myagent
             3  pwd
@@ -730,4 +730,31 @@ Pre-requisites:
         Microsoft Hosted (Microsoft will assign a VM) - https://aka.ms/azpipelines-parallelism-request
 
 
-    - Service Connection 
+    - Service Connection (Service Principal)
+
+
+# d3E8Q~ROkwXz1ZKBd2CZ~EVrHuSyJyA83X3Y6bEI
+
+
+
+
+# Create a resource group
+az group create --location centralindia --name java-rg
+
+# Create an app service plan of type Linux
+az appservice plan create -g java-rg -n java-service-plan --is-linux
+
+# Create an App Service from the plan with Java SE as the runtime
+az webapp create -g java-rg -p java-service-plan -n saanvikitjava --runtime "JAVA|8-jre8"
+
+
+
+GitHub Actions: CI CD Platform
+==============
+
+AzurePipeline --> GitHub Actions
+Jenkins --> GitHub Actions
+
+GitHub Runners:
+    - GitHub Hosted Runners 
+    - Self-Hosted Runners

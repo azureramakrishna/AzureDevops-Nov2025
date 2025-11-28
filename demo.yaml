@@ -1,0 +1,33 @@
+---
+TrainingModule: 'Azure with AzureDevops with AI'
+Duration: '60days'
+Modules: 
+  - AzureAdmin
+  - AzureDevops
+  - ARMTemplates
+  - Terraform
+  - GitHubActions
+  - Docker
+  - AKS
+
+Addresses: 
+- Street: '123 Tech Lane'
+  City: 'Techville'
+  State: 'CA'
+  ZipCode: '94043'
+  Country: 'USA'
+
+- Street: '123 Tech Lane'
+  City: 'Techville'
+  State: 'CA'
+  ZipCode: '94043'
+  Country: 'USA'
+
+Participants:
+  - Name: Divya
+    Location: Hyderabad
+    IsAzureAdmin: true
+
+  - Name: lisandro
+    Location: USA
+    IsAzureAdmin: true
