@@ -1,4 +1,4 @@
-<mxfile host="app.diagrams.net" agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36" version="29.1.1">
+<mxfile host="app.diagrams.net" agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36" version="29.2.1">
   <diagram name="Page-1" id="l4iu16ftf9yaPs3BEweq">
     <mxGraphModel dx="1184" dy="665" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
       <root>
@@ -1143,6 +1143,27 @@
         </mxCell>
         <mxCell id="E1mftb3NxMMv-dOZOaua-14" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="Azure Subscription" vertex="1">
           <mxGeometry height="30" width="60" x="390" y="14540" as="geometry" />
+        </mxCell>
+        <mxCell id="ykt22jcFFGdDmzoLZLb_-1" parent="1" style="rounded=1;whiteSpace=wrap;html=1;" value="" vertex="1">
+          <mxGeometry height="190" width="160" x="155.5" y="14890" as="geometry" />
+        </mxCell>
+        <mxCell id="ykt22jcFFGdDmzoLZLb_-2" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;rounded=0;" value="Application Code&lt;div&gt;Libraries and versions&lt;/div&gt;&lt;div&gt;dependencies&lt;/div&gt;&lt;div&gt;OS requirements&lt;/div&gt;" vertex="1">
+          <mxGeometry height="30" width="190" x="177" y="14970" as="geometry" />
+        </mxCell>
+        <mxCell id="ykt22jcFFGdDmzoLZLb_-3" parent="1" style="rounded=0;whiteSpace=wrap;html=1;" value="" vertex="1">
+          <mxGeometry height="60" width="120" x="479.25" y="14950" as="geometry" />
+        </mxCell>
+        <mxCell id="ykt22jcFFGdDmzoLZLb_-4" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="Docker Image" vertex="1">
+          <mxGeometry height="30" width="90" x="496" y="14965" as="geometry" />
+        </mxCell>
+        <mxCell id="ykt22jcFFGdDmzoLZLb_-5" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="Containers" vertex="1">
+          <mxGeometry height="30" width="60" x="754" y="14970" as="geometry" />
+        </mxCell>
+        <mxCell id="ykt22jcFFGdDmzoLZLb_-6" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="Dockerfile" vertex="1">
+          <mxGeometry height="30" width="60" x="175" y="14860" as="geometry" />
+        </mxCell>
+        <mxCell id="ykt22jcFFGdDmzoLZLb_-7" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="Docker run &amp;lt;imagename&amp;gt;" vertex="1">
+          <mxGeometry height="30" width="200" x="590.75" y="15050" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>
